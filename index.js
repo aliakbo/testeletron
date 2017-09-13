@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, globalShortcut} = require('electron');
 const url = require('url');
 
 let win;
@@ -15,7 +15,13 @@ function boot() {
         slashes: true
     }))
 
-    
+    win.on('closed', () => {
+        win = null;
+    })
+
+    globalShortcut.register('CommandOrControl+1', () => {
+        win.isMaximized() ? win.unmaximize() : win.maximize();
+    })
 }
 
 app.on('ready', boot);
